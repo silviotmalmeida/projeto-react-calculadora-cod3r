@@ -1,0 +1,24 @@
+version: '3.5'
+
+services:
+
+  #nome do servico
+  react-calculadora:
+
+    #construido a partir de uma imagem customizada em ./image
+    image: react-calculadora
+    
+    #nome do conteiner
+    container_name: react-calculadora
+
+    #pastas compartilhadas
+    volumes:
+      #pasta do codigo fonte da aplicacao
+      - "./app:/usr/src/app"
+
+    #porta a ser exposta
+    ports:
+      - 3000:3000
+  
+    #artifício para manter o container aberto
+    tty: true
