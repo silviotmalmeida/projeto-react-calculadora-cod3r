@@ -1,15 +1,12 @@
-//importando o React e o React.Component
+//importando as dependências
 import React, { Component } from "react";
-
-//importando o arquivo css do componeten
-import "./Calculator.css";
-
-//importando o componente Button
 import Button from "../components/Button";
-
-//importando o componente Display
 import Display from "../components/Display";
 
+//importando o estilo
+import "./Calculator.css";
+
+//definindo o estado inicial das variáveis do componente
 const initialState = {
   displayValue: "0",
   clearDisplay: false,
@@ -19,17 +16,32 @@ const initialState = {
 };
 
 export default class Calculator extends Component {
+  //classe responsável por criar o componente calculator
+
+  //carregando o estado inicial
   state = { ...initialState };
 
+  //definindo a função construtora
   constructor(props) {
+    //usando o construtor da superclasse
     super(props);
 
+    //definindo o escopo do this para o objeto da classe,
+    //quando utilizar os métodos abaixo
+
+    //função para limpar a memória
     this.clearMemory = this.clearMemory.bind(this);
+
+    //função para definir a operação atual
     this.setOperation = this.setOperation.bind(this);
+
+    //função para inserir um dígito na operação
     this.addDigit = this.addDigit.bind(this);
   }
 
   clearMemory() {
+    //função responsável por limpar a memória,
+    //recarregando o estado inicial do componente
     this.setState({ ...initialState });
   }
 
@@ -80,6 +92,7 @@ export default class Calculator extends Component {
     }
   }
 
+  //função que renderiza o componente
   render() {
     return (
       <div className="calculator">
