@@ -1,5 +1,8 @@
-import React from 'react'
-import './Display.css'
+//importando as dependências
+import React from "react";
 
-export default props =>
-    <div className="display">{props.value}</div>
+//importando o estilo
+import "./Display.css";
+
+//criando o componente funcional display
+export default (props) => <div className="display">{props.value}</div>;

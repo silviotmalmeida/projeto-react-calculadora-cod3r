@@ -46,6 +46,8 @@ export default class Calculator extends Component {
   }
 
   setOperation(operation) {
+    // console.log(this);
+
     if (this.state.current === 0) {
       this.setState({ operation, current: 1, clearDisplay: true });
     } else {
@@ -72,6 +74,8 @@ export default class Calculator extends Component {
   }
 
   addDigit(n) {
+    console.log(this);
+
     if (n === "." && this.state.displayValue.includes(".")) {
       return;
     }
@@ -88,7 +92,7 @@ export default class Calculator extends Component {
       const values = [...this.state.values];
       values[i] = newValue;
       this.setState({ values });
-      console.log(values);
+      // console.log(values);
     }
   }
 
@@ -96,7 +100,10 @@ export default class Calculator extends Component {
   render() {
     return (
       <div className="calculator">
+        {/* renderizando o display */}
         <Display value={this.state.displayValue} />
+
+        {/* renderizando os botões */}
         <Button label="AC" click={this.clearMemory} triple />
         <Button label="/" click={this.setOperation} operation />
         <Button label="7" click={this.addDigit} />
