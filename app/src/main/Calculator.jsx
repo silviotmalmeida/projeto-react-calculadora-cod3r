@@ -8,10 +8,19 @@ import "./Calculator.css";
 
 //definindo o estado inicial das variáveis do componente
 const initialState = {
+  //valor exibido no display
   displayValue: "0",
+
+  //variável que armazena a necessidade de limpar o display
   clearDisplay: false,
+
+  //operação a ser efetuada
   operation: null,
+
+  //array com os operandos
   values: [0, 0],
+
+  //ponteiro do array de operandos
   current: 0,
 };
 
@@ -46,27 +55,51 @@ export default class Calculator extends Component {
   }
 
   setOperation(operation) {
-    // console.log(this);
+    //função responsável por realizar as operações matemáticas
 
+    //se o ponteiro do array de operandos for zero:
     if (this.state.current === 0) {
+      //atualiza o estado do componente com a operação selecionada,
+      //incrementa o ponteiro e autoriza a limpeza do display
       this.setState({ operation, current: 1, clearDisplay: true });
+
+      //senão:
     } else {
+      //se a operação selecionada for '=', equals recebe true
       const equals = operation === "=";
+
+      //obtendo o operador selecionado
       const currentOperation = this.state.operation;
 
+      //obtendo o array de operandos
       const values = [...this.state.values];
+
+      //tenta realizar a operação
       try {
+        //se a operação for bem sucedida, armazena na posicao 0 do array de operandos
         values[0] = eval(`${values[0]} ${currentOperation} ${values[1]}`);
       } catch (e) {
+        //senão, utiliza o valor do estado atual do componente
         values[0] = this.state.values[0];
       }
 
+      //zera a posição 1 do array de operandos
       values[1] = 0;
 
+      //atualizando o estado do componente
       this.setState({
-        displayValue: values[0],
+        //atualiza o display com o resultado da operação, convertendo para string
+        displayValue: values[0].toString(),
+
+        //caso não tenha pressionado o '=', mantém a operação selecionada
         operation: equals ? null : operation,
+
+        //caso não tenha pressionado o '=', incrementa o ponteiro
+        //do array de operandos
         current: equals ? 0 : 1,
+
+        //caso não tenha pressionado o '=', autoriza a limpeza do display
+        //para a entrada do segundo operando
         clearDisplay: !equals,
         values,
       });
@@ -74,25 +107,49 @@ export default class Calculator extends Component {
   }
 
   addDigit(n) {
-    console.log(this);
+    //função responsável por incluir um dígito no display
 
-    if (n === "." && this.state.displayValue.includes(".")) {
+    //se o botão digitado for o '.' e já existir algum '.' no display:
+    if (n === "." && this.state.displayValue.includes(n)) {
+      //não inclui o dígito
       return;
     }
 
+    //o display será limpo antes de incluir o novo dígito quando:
     const clearDisplay =
-      this.state.displayValue === "0" || this.state.clearDisplay;
+      //o valor atual é zero (para evitar zeros à esquerda) ou
+      this.state.displayValue === "0" ||
+      //a variável clear display estiver setada como true
+      this.state.clearDisplay;
+
+    //o dígito atual só sera considerado caso clearDisplay seja false
     const currentValue = clearDisplay ? "" : this.state.displayValue;
+
+    //o novo número a ser exibido será o dígito atual
+    //concatenado com o novo dígito n
     const displayValue = currentValue + n;
+
+    //atualizando o novo número no display e
+    //falseando o clearDisplay no estado do componente
     this.setState({ displayValue, clearDisplay: false });
 
+    //se o botão digitado não for o '.':
     if (n !== ".") {
+      //obtendo o ponteiro atual do array de operandos
       const i = this.state.current;
+
+      //convertendo o número atual do display para float
       const newValue = parseFloat(displayValue);
+
+      //obtendo o array atual de operandos
       const values = [...this.state.values];
+
+      //populando a posição do ponteiro no array de operandos
       values[i] = newValue;
+
+      //atualizando o array de operandos no estado do componente
       this.setState({ values });
-      // console.log(values);
+      console.log(values);
     }
   }
 
